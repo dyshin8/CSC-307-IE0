@@ -6,10 +6,16 @@
   "author": "",
   "type": "commonjs",
   "main": "index.js",
+  "private": true,
   "scripts": {
+    "start": "npm --prefix packages/react-frontend run dev",
+    "dev": "npm --prefix packages/react-frontend run dev",
+    "build": "npm --prefix packages/react-frontend run build",
+    "preview": "npm --prefix packages/react-frontend run preview",
+    "postinstall": "npm --prefix packages/react-frontend install",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "workspaces": [
-	  "packages/*"
+    "packages/*"
   ]
 }
