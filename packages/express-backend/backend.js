@@ -55,8 +55,9 @@ const findUserById = (id) =>
   users["users_list"].find((user) => user["id"] === id);
 
 const addUser = (user) => {
-  users["users_list"].push(user);
-  return user;
+  const newUser = { ...user, id: generateRandomId() };
+  users["users_list"].push(newUser);
+  return newUser;
 };
 
 const deleteUserById = (id) => {
@@ -66,6 +67,10 @@ const deleteUserById = (id) => {
   }
   users["users_list"].splice(index, 1);
   return true;
+};
+
+const generateRandomId = () => {
+  return Math.random().toString(36).slice(2, 8);
 };
 
 const app = express();
@@ -93,7 +98,7 @@ app.get("/users", (req, res) => {
 });
 
 app.get("/users/:id", (req, res) => {
-  const id = req.params["id"]; //or req.params.id
+  const id = req.params["id"];
   let result = findUserById(id);
   if (result === undefined) {
     res.status(404).send("Resource not found.");
@@ -104,8 +109,8 @@ app.get("/users/:id", (req, res) => {
 
 app.post("/users", (req, res) => {
   const userToAdd = req.body;
-  addUser(userToAdd);
-  res.send();
+  const newUser = addUser(userToAdd);
+  res.status(201).send(newUser);
 });
 
 app.delete("/users/:id", (req, res) => {
